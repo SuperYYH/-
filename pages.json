@@ -80,6 +80,7 @@
       }
     ]
   },
+  // 主包页
   "pages": [
     //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
     {
@@ -146,6 +147,7 @@
       }
     ]
   },
+  // 分包页面
   "subPackages": [{
       "root": "subpkg_task",
       "pages": [{
@@ -225,6 +227,12 @@
           "path": "settings/index",
           "style": {
             "navigationBarTitleText": "系统设置"
+          }
+        },
+        {
+          "path": "verify/index",
+          "style": {
+            "navigationBarTitleText": "实人认证"
           }
         },
         {

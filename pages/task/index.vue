@@ -1,9 +1,9 @@
 <script setup>
   import { ref, reactive } from 'vue'
 
-  import slPickup from './components/pickup.vue'
-  import slDelivery from './components/delivery.vue'
-  import slComplete from './components/complete.vue'
+  import slPickup from './components/待提货pickup.vue'
+  import slDelivery from './components/在途delivery.vue'
+  import slComplete from './components/已完成complete.vue'
 
   // 标签页索引
   const tabIndex = ref(0)
@@ -42,12 +42,15 @@
         {{ tabMeta.title }}
       </text>
     </view>
+    <!-- 待提货 -->
     <view v-if="tabMetas[0].rendered" v-show="tabIndex === 0" class="task-list">
       <sl-pickup></sl-pickup>
     </view>
+    <!-- 在途 -->
     <view v-if="tabMetas[1].rendered" v-show="tabIndex === 1" class="task-list">
       <sl-delivery></sl-delivery>
     </view>
+    <!-- 已完成 -->
     <view v-if="tabMetas[2].rendered" v-show="tabIndex === 2" class="task-list">
       <sl-complete></sl-complete>
     </view>

@@ -1,8 +1,21 @@
-<script>
-  export default {
-    options: {
-      // virtualHost: true,
-    },
+<!-- 列表展示功能 -->
+<script setup>
+  import { ref, onMounted } from 'vue'
+  import messageApi from '@/apis/message'
+
+  // 公告列表数据
+  const announceList = ref([])
+  // 页面加载后请求数据
+  onMounted(() => {
+    getAnnounceList()
+  })
+
+  // 获取公告的数据
+  async function getAnnounceList(page = 1, pageSize = 5) {
+    const { code, data } = await messageApi.list(200, page, pageSize)
+    if (code !== 200) return uni.utils.toast('数据获取失败！')
+    // 数据渲染
+    announceList.value = data.items
   }
 </script>
 <template>
@@ -14,40 +27,19 @@
       </view>
       <uni-list :border="false">
         <uni-list-item
+          v-for="announce in announceList"
+          :key="announce.id"
           to="/subpkg_message/content/index"
           ellipsis="1"
-          title="在营车辆年检通知，为保障车辆能在营车辆年检通知，为保障车辆能够"
-          rightText="05-06 06:16"
+          :title="announce.title"
+          :right-text="announce.created"
         >
           <template v-slot:header>
-            <text class="dot"></text>
+            <text v-if="!announce.isRead" class="dot"></text>
           </template>
         </uni-list-item>
-        <uni-list-item
-          to="/subpkg_message/content/index"
-          ellipsis="1"
-          title="在营车辆年检通知，为保障车辆能在营车辆年检通知，为保障车辆能够"
-          rightText="05-06 06:16"
-        />
-        <uni-list-item
-          to="/subpkg_message/content/index"
-          ellipsis="1"
-          title="在营车辆年检通知，为保障车辆能在营车辆年检通知，为保障车辆能够"
-          rightText="05-06 06:16"
-        />
-        <uni-list-item
-          to="/subpkg_message/content/index"
-          ellipsis="1"
-          title="在营车辆年检通知，为保障车辆能在营车辆年检通知，为保障车辆能够"
-          rightText="05-06 06:16"
-        />
-        <uni-list-item
-          to="/subpkg_message/content/index"
-          ellipsis="1"
-          title="在营车辆年检通知，为保障车辆能在营车辆年检通知，为保障车辆能够"
-          rightText="05-06 06:16"
-        /> </uni-list
-    ></view>
+      </uni-list>
+    </view>
   </scroll-view>
 </template>
 

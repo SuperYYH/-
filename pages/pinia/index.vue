@@ -1,9 +1,21 @@
-<script setup></script>
+<script setup>
+  import { storeToRefs } from 'pinia'
+  import { useCounterStore } from '@/stores/counter'
+  const store = useCounterStore()
+
+  // 直接使用数据 (state) 本身
+  const { count } = storeToRefs(store)
+
+  // store 中的方法直接解构即可
+  const { decrement, increment } = store
+
+  // console.log(store.count)
+</script>
 <template>
   <view class="counter">
-    <button class="button" type="primary">-</button>
-    <input class="input" type="text" />
-    <button class="button" type="primary">+</button>
+    <button class="button" @click="decrement" type="primary">-</button>
+    <input class="input" :value="count" type="text" />
+    <button class="button" @click="increment" type="primary">+</button>
   </view>
 </template>
 

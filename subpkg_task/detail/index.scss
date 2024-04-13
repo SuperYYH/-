@@ -32,7 +32,6 @@
 .task-detail {
   flex: 1;
   overflow: hidden;
-
   .panel {
     padding: 30rpx 30rpx 20rpx;
     margin: 30rpx;
@@ -72,6 +71,7 @@
 
 .basic-info {
   .timeline {
+    min-height: 105rpx;
     position: relative;
     padding: 0 140rpx 0 30rpx;
     margin-left: 30rpx;

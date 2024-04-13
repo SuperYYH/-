@@ -6,6 +6,7 @@
 
   // Tab 标签页索引
   const tabIndex = ref(0)
+
   const tabMetas = reactive([
     {
       title: '任务通知',
@@ -18,6 +19,7 @@
   ])
   // 切换标签页
   function onTabChange(index) {
+    // v-if 配合v-show来使用
     tabMetas[index].rendered = true
     tabIndex.value = index
   }
@@ -35,6 +37,7 @@
         >{{ tabMeta.title }}</text
       >
     </view>
+    <!--  -->
     <view
       class="message-list"
       v-show="tabIndex === 0"
@@ -42,6 +45,7 @@
     >
       <sl-notify></sl-notify>
     </view>
+
     <view
       class="message-list"
       v-show="tabIndex === 1"

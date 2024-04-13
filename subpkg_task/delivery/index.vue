@@ -1,14 +1,70 @@
+<script setup>
+  import { ref, computed } from 'vue'
+  import { onLoad } from '@dcloudio/uni-app'
+  import taskApi from '@/apis/task'
+
+  // 定义数据获取上传的图片
+  const receiptPictures = ref([])
+  const goodsPictures = ref([])
+
+  // 运输任务id
+  const id = ref('')
+  // 处理接口所需要的数据（只保留 url 属性）
+  const certificatePictureList = computed(() => {
+    return receiptPictures.value.map(({ url }) => {
+      return { url }
+    })
+  })
+  const deliverPictureList = computed(() => {
+    return goodsPictures.value.map(({ url }) => {
+      return { url }
+    })
+  })
+
+  // 是否允许提交数据
+  const enableSubmit = computed(() => {
+    return receiptPictures.value.length > 0 && goodsPictures.value.length > 0
+  })
+
+  onLoad((query) => {
+    // 地址参数
+    id.value = query.id
+  })
+
+  // 监听表单提交
+  function onFormSubmit() {
+    // 表单数据
+    const formData = {
+      id: id.value,
+      deliverPictureList: deliverPictureList.value,
+      certificatePictureList: certificatePictureList.value,
+    }
+
+    const { code } = taskApi.delivery(formData)
+    if (code !== 200) return uni.utils.toast('交付失败!')
+    uni.reLaunch({ url: '/pages/task/index' })
+  }
+</script>
+
 <template>
   <view class="page-container">
     <view class="receipt-info">
-      <uni-file-picker limit="3" title="请拍照上传回单凭证"></uni-file-picker>
-      <uni-file-picker limit="3" title="请拍照上传货品照片"></uni-file-picker>
+      <uni-file-picker
+        v-model="receiptPictures"
+        limit="3"
+        title="请拍照上传回单凭证"
+      ></uni-file-picker>
+      <uni-file-picker
+        v-model="goodsPictures"
+        limit="3"
+        title="请拍照上传货品照片"
+      ></uni-file-picker>
     </view>
-    <button disabled class="button">提交</button>
+    <button @click="onFormSubmit" :disabled="!enableSubmit" class="button">
+      提交
+    </button>
   </view>
 </template>
-
-<script></script>
 
 <style lang="scss" scoped>
   .page-container {
